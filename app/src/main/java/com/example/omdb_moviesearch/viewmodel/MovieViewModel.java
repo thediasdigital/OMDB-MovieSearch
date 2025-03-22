@@ -1,5 +1,7 @@
 package com.example.omdb_moviesearch.viewmodel;
 
+import android.media.Image;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.omdb_moviesearch.BuildConfig;
 import com.example.omdb_moviesearch.model.Movie;
 import com.example.omdb_moviesearch.utils.ApiUtility;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
