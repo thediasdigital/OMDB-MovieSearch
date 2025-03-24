@@ -1,5 +1,6 @@
 package com.example.omdb_moviesearch.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,19 +11,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.omdb_moviesearch.databinding.ActivityMainBinding;
 import com.example.omdb_moviesearch.model.Movie;
+import com.example.omdb_moviesearch.utils.MovieClickListener;
 import com.example.omdb_moviesearch.viewmodel.MovieViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieClickListener {
 
     ActivityMainBinding binding;
     MovieViewModel viewModel;
     MovieAdapter adapter;
+    List<Movie> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        movies = new ArrayList<>();
 
         // Initialize view binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize recycler view
         adapter = new MovieAdapter(getApplicationContext(), new ArrayList<>());
+        adapter.setClickListener(this);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getMovies().observe(this, movies -> {
             Log.i("tag", "Observe trigger");
             adapter.updateMovies(movies);
+            this.movies.clear();
+            this.movies.addAll(movies);
         });
 
         binding.searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -46,5 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.Search(binding.searchBar.getText().toString());
             }
         });
+    }
+    @Override
+    public void onClick(View v, int pos) {
+        Movie clickedMovie = movies.get(pos);
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        intent.putExtra("IMDB_ID", clickedMovie.getImbdID());
+        startActivity(intent);
     }
 }
