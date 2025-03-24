@@ -2,6 +2,7 @@ package com.example.omdb_moviesearch.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,6 +46,12 @@ public class DetailsActivity extends AppCompatActivity {
                     .into(binding.detailsPoster);
         });
 
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 }

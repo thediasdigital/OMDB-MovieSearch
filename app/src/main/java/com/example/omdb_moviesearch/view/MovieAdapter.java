@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.omdb_moviesearch.R;
+import com.example.omdb_moviesearch.databinding.ItemMovieBinding;
 import com.example.omdb_moviesearch.model.Movie;
 import com.example.omdb_moviesearch.utils.MovieClickListener;
 import com.squareup.picasso.Picasso;
@@ -35,7 +35,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View movieView = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_layout, parent, false);
+        View movieView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
         return new MovieViewHolder(movieView, this.clickListener);
     }
 
