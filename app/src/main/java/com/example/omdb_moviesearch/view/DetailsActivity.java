@@ -2,14 +2,15 @@ package com.example.omdb_moviesearch.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.omdb_moviesearch.R;
 import com.example.omdb_moviesearch.databinding.ActivityDetailsBinding;
-import com.example.omdb_moviesearch.model.Movie;
 import com.example.omdb_moviesearch.viewmodel.MovieViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -52,6 +53,16 @@ public class DetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        binding.addToFavouritesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("xyz", "Favourites on click triggered");
+                viewModel.addToFavourites();
+                Toast.makeText(DetailsActivity.this, "Movie added to favourites!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

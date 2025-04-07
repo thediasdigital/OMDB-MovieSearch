@@ -1,7 +1,7 @@
 package com.example.omdb_moviesearch.model;
 
 public class Movie {
-    private String imbdID;
+    private String imdbID;
     private String title;
     private String year;
     private String rating;
@@ -77,11 +77,11 @@ public class Movie {
         this.posterUrl = posterUrl;
     }
 
-    public String getImbdID() {
-        return imbdID;
+    public String getImdbID() {
+        return imdbID;
     }
 
-    public void setImbdID(String imbdID) {
-        this.imbdID = imbdID;
+    public void setImdbID(String imdbID) {
+        this.imdbID = imdbID;
     }
 }

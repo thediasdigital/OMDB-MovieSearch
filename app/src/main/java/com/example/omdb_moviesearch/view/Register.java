@@ -19,11 +19,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
     ActivityRegisterBinding binding;
     FirebaseAuth auth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +47,6 @@ public class Register extends AppCompatActivity {
                 String email = binding.registerEmail.getText().toString();
                 String pass = binding.registerPass.getText().toString();
                 String confirm = binding.registerConfirm.getText().toString();
-
-                Log.d("pass", "Pass: " + pass);
-                Log.d("pass", "Confirm: " + confirm);
 
                 // Make sure passwords match
                 if (!pass.equals(confirm)) {
@@ -62,6 +66,16 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
+                            // Get the newly registered user
+                            FirebaseUser user = auth.getCurrentUser();
+                            String uid = auth.getUid();
+                            // Add that user to the collection so I can populate their favourites later
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("email", user.getEmail());
+                            db.collection("Users")
+                              .document(uid)
+                              .set(userData);
+                            // Display message and return to login
                             Toast.makeText(Register.this, "Successfully Registered!", Toast.LENGTH_SHORT).show();
                             finish();
                         }

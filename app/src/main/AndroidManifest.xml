@@ -15,6 +15,9 @@
         android:theme="@style/Theme.OMDBMovieSearch"
         tools:targetApi="31">
         <activity
+            android:name=".view.Favourites"
+            android:exported="false" />
+        <activity
             android:name=".view.Register"
             android:exported="false" />
         <activity

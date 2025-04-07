@@ -54,12 +54,21 @@ public class MainActivity extends AppCompatActivity implements MovieClickListene
                 viewModel.Search(binding.searchBar.getText().toString());
             }
         });
+
+        binding.toFavouritesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Favourites.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
     @Override
     public void onClick(View v, int pos) {
         Movie clickedMovie = movies.get(pos);
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        intent.putExtra("IMDB_ID", clickedMovie.getImbdID());
+        intent.putExtra("IMDB_ID", clickedMovie.getImdbID());
         startActivity(intent);
     }
 }
