@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OMDB-MovieSearch</string>
+    <string name="register_underlined"><u>Register Here</u></string>
 </resources>
