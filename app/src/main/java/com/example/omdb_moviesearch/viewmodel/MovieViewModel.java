@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.omdb_moviesearch.BuildConfig;
 import com.example.omdb_moviesearch.model.Movie;
 import com.example.omdb_moviesearch.utils.ApiUtility;
+import com.example.omdb_moviesearch.utils.DBCallback;
+import com.example.omdb_moviesearch.view.FavouriteDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -127,6 +129,7 @@ public class MovieViewModel extends ViewModel {
             movieData.put("Title", movie.getTitle());
             movieData.put("Year", movie.getYear());
             movieData.put("Poster", movie.getPosterUrl());
+            movieData.put("Description", movie.getPlot());
 
             // Add movie to favourites collection
             db.collection("Users")
@@ -168,6 +171,53 @@ public class MovieViewModel extends ViewModel {
                   movies.postValue(favMovies);
               })
               .addOnFailureListener(e -> { Log.e("xyz", "Failed to load favourites", e); });
+        }
+    }
+    public void getUserDesc(String movieID, DBCallback cb) {
+        String uid = auth.getUid();
+        if(uid != null) {
+            db.collection("Users")
+                    .document(uid)
+                    .collection("Favourites")
+                    .document(movieID)
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                       if(doc.exists() && doc.contains("Description")) {
+                           String description = doc.getString("Description");
+                           cb.onCallback(description);
+                       }
+                       else {
+                           cb.onCallback("Could not get description.");
+                       }
+                    })
+                    .addOnFailureListener(e -> {Log.e("xyz", "Update Failed", e); });;
+        }
+    }
+    public void removeFavourite(String movieID) {
+        String uid = auth.getUid();
+        if(uid != null) {
+            db.collection("Users")
+              .document(uid)
+              .collection("Favourites")
+              .document(movieID)
+              .delete()
+              .addOnSuccessListener(v -> { Log.d("xyz", "Delete Success"); })
+              .addOnFailureListener(e -> { Log.e("xyz", "Delete failed", e); });
+        }
+    }
+
+    public void updateMovieDescription(String desc) {
+        String uid = auth.getUid();
+        Movie movie = this.movie.getValue();
+
+        if(uid != null && movie != null) {
+            db.collection("Users")
+                    .document(uid)
+                    .collection("Favourites")
+                    .document(movie.getImdbID())
+                    .update("Description", desc)
+                    .addOnSuccessListener(v -> { Log.d("xyz", "Updated Successfully"); })
+                    .addOnFailureListener(e -> {Log.e("xyz", "Update Failed", e); });
         }
     }
 }

@@ -69,8 +69,9 @@ public class Favourites extends AppCompatActivity implements MovieClickListener 
     @Override
     public void onClick(View v, int pos) {
         Movie clickedMovie = movies.get(pos);
-        Intent intent = new Intent(Favourites.this, DetailsActivity.class);
+        Intent intent = new Intent(Favourites.this, FavouriteDetails.class);
         intent.putExtra("IMDB_ID", clickedMovie.getImdbID());
         startActivity(intent);
+        finish();
     }
 }
